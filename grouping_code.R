@@ -3,11 +3,19 @@ library(tidyverse)
 library(numbers)
 
 setwd("~/Desktop/teaching related - spring 22")
-
 #don't forget to add an "enter" at the end of the file first by clicking and viewing file
-dataset<-read.csv("which-of-the-following-mostly-closely-results (1).csv", skip=9)
+dataset<-read.csv("results.csv", skip=18)
 dataset<-as.data.frame(cbind(dataset$Response,dataset$Registered.participant))
 colnames(dataset)<-c("race", "name")
+
+
+
+
+
+
+
+
+
 
 #populate sample data
 #dataset<-as.data.frame(sample(c("Latine", "East Asian", "East Asian", "White", "Black/African American", "Middle Eastern", "East Asian", "South Asian", "Native/Indigenous American", "White"), 99, replace=T))
@@ -18,14 +26,14 @@ colnames(dataset)<-c("race", "name")
 #copying Dick's code 
 
 classsize = nrow(dataset)
-groupcount = classsize%/%4
+groupcount = 26
 
 #remainder
-rejects=classsize%%4
+#rejects=classsize%%4
 
-if (rejects>0){
-  groupcount=groupcount+1
-}
+#if (rejects>0){
+#  groupcount=groupcount+1
+#}
 
 #add White
 dataset$groupnumber = 0
@@ -42,6 +50,9 @@ for (i in 1:nrow(dataset)){
 
 table(dataset$groupnumber)
 
+
+
+
 #add Latine
 group = 1
 for (i in 1:nrow(dataset)){
@@ -53,26 +64,109 @@ for (i in 1:nrow(dataset)){
     group = group + 1
   }
 }
+table(dataset$groupnumber)
 
 #add biggest East Asian group
-group = 1
+group = 18
 for (i in 1:nrow(dataset)){
   if (group == groupcount){
     group = 1
   }
-  if (dataset$race[i] %in% c('FILL IN HERE')){
+  if (dataset$race[i] %in% c('Chinese')){
     dataset$groupnumber[i] = group
     group = group + 1
   }
 }
 
+table(dataset$groupnumber)
+
 #add South Asian
-group = 1
+group = 5
 for (i in 1:nrow(dataset)){
   if (group == groupcount){
     group = 1
   }
   if (dataset$race[i] %in% c('South Asian')){
+    dataset$groupnumber[i] = group
+    group = group + 1
+  }
+}
+
+table(dataset$groupnumber)
+
+
+
+#add Black
+group = 1
+for (i in 1:nrow(dataset)){
+  if (group == groupcount){
+    group = 1
+  }
+  if (dataset$race[i] %in% c('Black/African American')){
+    dataset$groupnumber[i] = group
+    group = group + 1
+  }
+}
+
+table(dataset$groupnumber)
+
+
+#add vietnamese
+group = 10
+for (i in 1:nrow(dataset)){
+  if (group == groupcount){
+    group = 1
+  }
+  if (dataset$race[i] %in% c('Vietnamese')){
+    dataset$groupnumber[i] = group
+    group = group + 1
+  }
+}
+
+table(dataset$groupnumber)
+
+#add Japanese 
+group = 12
+for (i in 1:nrow(dataset)){
+  if (group == groupcount){
+    group = 1
+  }
+  if (dataset$race[i] %in% c('Japanese')){
+    dataset$groupnumber[i] = group
+    group = group + 1
+  }
+}
+
+#add Middle Eastern
+group = 18
+for (i in 1:nrow(dataset)){
+  if (group == groupcount){
+    group = 1
+  }
+  if (dataset$race[i] %in% c('Middle Eastern')){
+    dataset$groupnumber[i] = group
+    group = group + 1
+  }
+}
+
+#add Korean
+group = 19
+for (i in 1:nrow(dataset)){
+  if (group == groupcount){
+    group = 1
+  }
+  if (dataset$race[i] %in% c('Korean')){
+    dataset$groupnumber[i] = group
+    group = group + 1
+  }
+}
+
+group = 21
+for (i in 1:nrow(dataset)){
+  if (group == groupcount){
+    group = 1
+  }
+  if (dataset$race[i] %in% c("Other East Asian")){
     dataset$groupnumber[i] = group
     group = group + 1
   }
@@ -88,12 +182,14 @@ while (grouptable[[group+1]] >= 4){
 }
 
 for (i in 1:nrow(dataset)){
-  if (dataset$race[i] %in% c('Vietnamese', 'Chinese', 'Japanese', 'Korean', 'Other East Asian' "Middle Eastern", "Native/Indigenous American")){
+  if (dataset$race[i] %in% c('Vietnamese', 'Japanese', 'Korean', 'Other East Asian' "Middle Eastern", "Native/Indigenous American")){
   dataset$groupnumber[i] = group
   group = group + 1
   }
   if (group>groupcount-1) break
 }
+
+data<-rbind(dataset, c("Black/African American", "Nia Jones", "15"), c("Latine", "Adriana Vasquez", "18"))
 
 ##disperse remaining students
 grouptable = table(dataset$groupnumber)
